@@ -153,7 +153,8 @@ def factorial(n):
 
 def gamma_function(num):
     """
-    Compute the gamma function Γ(z) using a mix of recursive calculation and Stirling's approximation.
+    Compute gamma function Γ(z) using recursive calculation and
+    Stirling's approximation.
 
     Parameters:
         z (float or array-like): The input(s) to the gamma function (z > 0).
@@ -209,20 +210,20 @@ def gamma_function(num):
 
 def stirling_approximation(z):
     """
-    Stirling's approximation for the gamma function for non-integer, non-half-integer values.
+    Stirling's approx for gamma function; non-integer, non-half-integer values.
 
     Parameters:
         z (float): The input value for approximation.
 
     Returns:
-        float: The approximate value of the gamma function using Stirling's approximation.
+        float: Approximate value of gamma function using Stirling's approx.
     """
     return math.sqrt(2 * math.pi / z) * (z / math.e) ** z
 
 
 def gamma_recursive(num):
     """
-    Recursive calculation for the gamma function for integers and half-integers.
+    Recursive calculation for gamma function for integers and half-integers.
 
     Parameters:
         num (float): The input value (integer or half-integer).
@@ -245,7 +246,7 @@ def bessel_j(alpha, x, N=20):
 
     Parameters:
         alpha (float): The order of the Bessel function.
-        x (float or array-like): The point(s) at which to evaluate the Bessel function.
+        x (float or array-like): point(s) to evaluate the Bessel function.
         N (int): The number of terms in the series expansion (default is 20).
 
     Returns:
