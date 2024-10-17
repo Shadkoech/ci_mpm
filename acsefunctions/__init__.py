@@ -1,12 +1,12 @@
-from acsefunctions import *
+# from acsefunctions import exp, sinh
 
-try:
-    from importlib.metadata import version, PackageNotFoundError
-except ImportError:  # For Python < 3.8
-    from importlib.metadata import version, PackageNotFoundError
+# try:
+#     from importlib.metadata import version, PackageNotFoundError
+# except ImportError:  # For Python < 3.8
+#     from importlib.metadata import version, PackageNotFoundError
 
-try:
-    __version__ = version(__name__)
-except PackageNotFoundError:
-    # package is not installed
-    pass
+# try:
+#     __version__ = version(__name__)
+# except PackageNotFoundError:
+#     # package is not installed
+#     pass
