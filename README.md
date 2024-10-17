@@ -35,6 +35,7 @@ To install the `acsefunctions` package, clone this repository and use the follow
 ### Example 1: Calculate the Exponential Function
 ``` result = exp(1)  # e^1
 print(result)  # Output: ~2.71828 
+```
 
 ### Example 2: Calculate Hyperbolic Functions
 
@@ -43,7 +44,8 @@ sinh_result = sinh(x)
 cosh_result = cosh(x)
 tanh_result = tanh(x)
 
-print(f"sinh(0.5): {sinh_result}, cosh(0.5): {cosh_result}, tanh(0.5): {tanh_result}")
+print(f"sinh(0.5): {sinh_result}, cosh(0.5): {cosh_result}, tanh(0.5): {tanh_result}") 
+```
 
 
 ### Example 3: Calculate Bessel Function
@@ -52,7 +54,7 @@ print(f"sinh(0.5): {sinh_result}, cosh(0.5): {cosh_result}, tanh(0.5): {tanh_res
 x = 1.0
 bessel_result = bessel_j(alpha, x)
 print(f"J_{alpha}(1.0): {bessel_result}")
-
+```
 
 ## Testing
 To run the test suite for the package, use:
