@@ -1,0 +1,35 @@
+name: Test Notebook Documentation
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  test-notebooks:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install nbconvert  # Install nbconvert for notebook conversion and testing
+          pip install jupyter  # Install Jupyter if needed
+
+      - name: Test Jupyter Notebooks
+        run: |
+          for notebook in docs/*.ipynb; do
+            echo "Testing notebook: $notebook"
+            jupyter nbconvert --to notebook --execute --inplace "$notebook"
+          done
