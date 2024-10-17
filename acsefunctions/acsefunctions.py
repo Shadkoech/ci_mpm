@@ -1,6 +1,7 @@
 """
 This module contains all the functions used in this project
 """
+
 import numpy as np
 import math
 
@@ -77,7 +78,7 @@ def cosh(x, N=20):
     result = np.ones_like(x)
     term = np.ones_like(x)
     for n in range(1, N + 1):
-        term *= (x ** 2) / ((2 * n - 1) * (2 * n))
+        term *= (x**2) / ((2 * n - 1) * (2 * n))
         result += term
     return result
 
@@ -120,11 +121,11 @@ def factorial(n):
             array([ 1,  1,  2,  6])
     """
     n = np.asarray(n, dtype=np.int64)
-    
+
     # Check for negative values
     if np.any(n < 0):
         raise ValueError("Factorial is not defined for negative values.")
-    
+
     # Special case: return 1 for n == 0
     if np.isscalar(n):
         if n == 0:
@@ -137,12 +138,12 @@ def factorial(n):
     max_n = np.max(n)
     if max_n == 0:
         return result
-    
+
     # Create an array of factorials up to max_n
     factorials = np.ones(max_n + 1, dtype=np.float64)
     for i in range(2, max_n + 1):
         factorials[i] = factorials[i - 1] * i
-    
+
     # Map the computed factorial values to the input n
     if np.isscalar(n):
         return factorials[n]
@@ -175,7 +176,7 @@ def gamma_function(num):
 
     if np.any(num <= 0):
         raise ValueError("Gamma function is only defined for z > 0.")
-    
+
     if np.any(num > 171.5):
         raise OverflowError("Gamma function input exceeds overflow limit.")
 
@@ -204,6 +205,7 @@ def gamma_function(num):
             result[idx] = stirling_approximation(value)
 
     return result.item() if result.size == 1 else result
+
 
 def stirling_approximation(z):
     """
@@ -256,14 +258,18 @@ def bessel_j(alpha, x, N=20):
             array([0.        , 0.44005059, 0.57672481])
     """
     x = np.asarray(x, dtype=np.float64)
-    
+
     if np.any(x < 0):
         raise ValueError("Bessel function is defined for x >= 0.")
-    
+
     result = np.zeros_like(x, dtype=np.float64)
-    
+
     for m in range(N):
-        term = ((-1) ** m) / (factorial(m) * gamma_function(m + alpha + 1)) * (x / 2) ** (2 * m + alpha)
+        term = (
+            ((-1) ** m)
+            / (factorial(m) * gamma_function(m + alpha + 1))
+            * (x / 2) ** (2 * m + alpha)
+        )
         result += term
-    
+
     return result
