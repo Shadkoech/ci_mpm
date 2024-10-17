@@ -10,52 +10,52 @@ on:
 
 jobs:
   test:
-    name: Pytest and Flake8 on multiple OSes
     runs-on: ${{ matrix.os }}
 
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest]
-        python-version: ['3.9', '3.10']
+        python-version: ['3.9', '3.10']  # Using both Python 3.9 and 3.10
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4  # Updated to v4 as per your example
+        uses: actions/checkout@v2
 
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v5  # Updated to v5
+        uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.python-version }}
 
-      # Install dependencies via pip for both OSes
-      - name: Install dependencies
+      # Install Miniconda for both Ubuntu and Windows
+      - name: Set up Miniconda
+        uses: conda-incubator/setup-miniconda@v2
+        with:
+          auto-update-conda: true
+          python-version: ${{ matrix.python-version }}  # Use the correct Python version for each job
+          activate-environment: acsefunctions  # Automatically activate the environment
+          environment-file: environment.yml    # Specify environment.yml for conda
+          auto-activate-base: false            # Avoid activating base environment by default
+
+      - name: Install dependencies with pip (Linux)
+        if: matrix.os == 'ubuntu-latest'
         run: |
-          pip install --upgrade pip
+          python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      # Run tests with pytest
-      - name: Test with pytest
+      - name: Run Python tests
         run: |
           pytest tests/
 
-      # Run flake8 linter
-      - name: Lint with flake8
+      - name: Run flake8 linter
         run: |
-          pip install flake8
-          flake8 acsefunctions --max-line-length=100
+          flake8 acsefunctions
 
-  validate_conda:
-    name: Validate conda environment.yml on Windows
-    runs-on: windows-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Python 3.10
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.10"
-
-      - name: Install and validate conda
+      - name: Validate conda environment.yml
+        if: matrix.os == 'windows-latest'
         run: |
           conda env create --file environment.yml --dry-run
+
+      - name: Validate pip requirements.txt
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          pip check
