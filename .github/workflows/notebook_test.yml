@@ -19,7 +19,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: '3.10'
+          python-version: '3.10' 
 
       - name: Install dependencies
         run: |
@@ -29,7 +29,5 @@ jobs:
 
       - name: Test Jupyter Notebooks
         run: |
-          for notebook in docs/*.ipynb; do
-            echo "Testing notebook: $notebook"
-            jupyter nbconvert --to notebook --execute --inplace "$notebook"
-          done
+          echo "Testing all notebooks in docs directory"
+          jupyter nbconvert --to notebook --execute --inplace docs/*.ipynb
