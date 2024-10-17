@@ -19,16 +19,22 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: '3.10'  
+          python-version: '3.10'
+
+      - name: Install LaTeX dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install texlive-latex-extra texlive-fonts-recommended texlive-latex-recommended latexmk
 
       - name: Install dependencies
         run: |
           pip install -r requirements.txt
 
-      - name: Build Sphinx documentation
+      - name: Build Sphinx documentation (PDF)
         run: |
           cd docs
           make latexpdf
+
           
 
       # - name: Commit and push updated documentation
