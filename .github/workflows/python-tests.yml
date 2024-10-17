@@ -33,26 +33,14 @@ jobs:
           auto-update-conda: true
           python-version: ${{ matrix.python-version }}  # Use the correct Python version for each job
           activate-environment: acsefunctions  # Automatically activate the environment
-          environment-file: base-environment.yml    # Install only base dependencies
+          environment-file: environment.yml    # Specify environment.yml for conda
           auto-activate-base: false            # Avoid activating base environment by default
 
-      # Install additional environment dependencies (Linux)
-      - name: Install extra conda dependencies (Linux)
-        if: matrix.os == 'ubuntu-latest'
-        run: |
-          conda env update --file extra-environment.yml
-
-      # Install pip dependencies (Linux)
-      - name: Install base dependencies with pip (Linux)
+      - name: Install dependencies with pip (Linux)
         if: matrix.os == 'ubuntu-latest'
         run: |
           python -m pip install --upgrade pip
-          pip install -r base-requirements.txt
-
-      - name: Install extra pip dependencies with pip (Linux)
-        if: matrix.os == 'ubuntu-latest'
-        run: |
-          pip install -r extra-requirements.txt
+          pip install -r requirements.txt
 
       - name: Run Python tests
         run: |
@@ -62,22 +50,12 @@ jobs:
         run: |
           flake8 acsefunctions
 
-      - name: Validate conda base environment.yml (Windows)
+      - name: Validate conda environment.yml
         if: matrix.os == 'windows-latest'
         run: |
-          conda env create --file base-environment.yml --dry-run
+          conda env create --file environment.yml --dry-run
 
-      - name: Validate conda extra environment.yml (Windows)
-        if: matrix.os == 'windows-latest'
-        run: |
-          conda env create --file extra-environment.yml --dry-run
-
-      - name: Validate pip base requirements.txt (Linux)
+      - name: Validate pip requirements.txt
         if: matrix.os == 'ubuntu-latest'
         run: |
-          pip check -r base-requirements.txt
-
-      - name: Validate pip extra requirements.txt (Linux)
-        if: matrix.os == 'ubuntu-latest'
-        run: |
-          pip check -r extra-requirements.txt
+          pip check
