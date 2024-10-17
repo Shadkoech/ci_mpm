@@ -30,14 +30,15 @@ To install the `acsefunctions` package, clone this repository and use the follow
 ## Usage
 
 ### Importing Functions
- * from acsefunctions import exp, sinh, cosh, tanh, bessel_j, gamma
+ ``` from acsefunctions import exp, sinh, cosh, tanh, bessel_j, gamma ```
 
 ### Example 1: Calculate the Exponential Function
-result = exp(1)  # e^1
-print(result)  # Output: ~2.71828
+``` result = exp(1)  # e^1
+print(result)  # Output: ~2.71828 
 
 ### Example 2: Calculate Hyperbolic Functions
-x = 0.5
+
+``` x = 0.5
 sinh_result = sinh(x)
 cosh_result = cosh(x)
 tanh_result = tanh(x)
@@ -46,7 +47,8 @@ print(f"sinh(0.5): {sinh_result}, cosh(0.5): {cosh_result}, tanh(0.5): {tanh_res
 
 
 ### Example 3: Calculate Bessel Function
-alpha = 0.5  # Order of the Bessel function
+
+``` alpha = 0.5  # Order of the Bessel function
 x = 1.0
 bessel_result = bessel_j(alpha, x)
 print(f"J_{alpha}(1.0): {bessel_result}")
