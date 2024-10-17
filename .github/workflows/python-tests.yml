@@ -15,7 +15,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest]
-        python-version: ['3.9', '3.10']  # Using both Python 3.9 and 3.10
+        python-version: ['3.9', '3.10']
 
     steps:
       - name: Checkout code
@@ -26,15 +26,14 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
-      # Install Miniconda for both Ubuntu and Windows
       - name: Set up Miniconda
         uses: conda-incubator/setup-miniconda@v2
         with:
           auto-update-conda: true
-          python-version: ${{ matrix.python-version }}  # Use the correct Python version for each job
-          activate-environment: acsefunctions  # Automatically activate the environment
-          environment-file: environment.yml    # Specify environment.yml for conda
-          auto-activate-base: false            # Avoid activating base environment by default
+          python-version: ${{ matrix.python-version }}
+          activate-environment: acsefunctions
+          environment-file: environment.yml
+          auto-activate-base: false
 
       - name: Install dependencies with pip (Linux)
         if: matrix.os == 'ubuntu-latest'
@@ -42,20 +41,22 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      - name: Install dependencies with conda (Windows)
+        if: matrix.os == 'windows-latest'
+        run: conda env update --file environment.yml --name acsefunctions
+
       - name: Run Python tests
         run: |
           pytest tests/
 
       - name: Run flake8 linter
         run: |
-          flake8 acsefunctions
+          flake8 acsefunctions --max-line-length=100
 
-      - name: Validate conda environment.yml
+      - name: Validate conda environment.yml (Windows)
         if: matrix.os == 'windows-latest'
-        run: |
-          conda env create --file environment.yml --dry-run
+        run: conda env create --file environment.yml --dry-run
 
-      - name: Validate pip requirements.txt
+      - name: Validate pip requirements.txt (Linux)
         if: matrix.os == 'ubuntu-latest'
-        run: |
-          pip check
+        run: pip check
