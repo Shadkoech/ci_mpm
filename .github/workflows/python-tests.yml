@@ -34,7 +34,6 @@ jobs:
           python-version: ${{ matrix.python-version }}
           activate-environment: acsefunctions  # Automatically activate the environment
           environment-file: environment.yml    # Specify environment.yml for conda
-          condarc-file: .github/.condarc       # Optional: add a .condarc if needed
           auto-activate-base: false            # Avoid activating base environment by default
 
       - name: Install dependencies with pip (Linux)
