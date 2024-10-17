@@ -3,10 +3,10 @@ name: Python package tests
 on:
   push:
     branches:
-      - master
+      - main
   pull_request:
     branches:
-      - master
+      - main
 
 jobs:
   test:
@@ -26,15 +26,25 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
-      - name: Install dependencies (pip)
+      # Install Miniconda for both Ubuntu and Windows
+      - name: Set up Miniconda
+        uses: conda-incubator/setup-miniconda@v2
+        with:
+          auto-update-conda: true
+          python-version: ${{ matrix.python-version }}
+          activate-environment: acsefunctions  # Automatically activate the environment
+          environment-file: environment.yml    # Specify environment.yml for conda
+          condarc-file: .github/.condarc       # Optional: add a .condarc if needed
+          auto-activate-base: false            # Avoid activating base environment by default
+
+      - name: Install dependencies with pip (Linux)
         if: matrix.os == 'ubuntu-latest'
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Install dependencies (conda)
+      - name: Install dependencies with conda (Windows)
         if: matrix.os == 'windows-latest'
-        shell: bash
         run: |
           conda env create --file environment.yml
           conda activate acsefunctions
